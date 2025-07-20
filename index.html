@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deploy FLEX-AI to Heroku</title>
+  <style>
+    /* ... same styling as before ... (you can keep your bubble and dark terminal style) */
+  </style>
+</head>
+<body>
+  <div class="bubbles">
+    <!-- ... keep your bubbles animation ... -->
+  </div>
+
+  <div class="container">
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI Icon" />
+    <h2>Deploy FLEX-AI to Heroku</h2>
+    <p>Enter your GitHub username below:</p>
+    <input type="text" id="username" placeholder="e.g., Allan-davincs" />
+    <button onclick="checkFork()">🚀 Deploy Now</button>
+    <button onclick="syncFork()">🔄 Sync Fork (if outdated)</button>
+  </div>
+
+  <div id="popup" class="popup">
+    <h3>🚨 You haven't forked FLEX-AI yet!</h3>
+    <p>Please first fork the repository to your GitHub account.<br>After that, you can sync later if needed via GitHub's Sync Fork button.</p>
+    <button id="forkLinkBtn">🔱 Go to Fork Now</button>
+  </div>
+
+  <script>
+    function showPopup(forkUrl) {
+      const popup = document.getElementById("popup");
+      popup.style.display = "block";
+      const btn = document.getElementById("forkLinkBtn");
+      btn.onclick = () => window.open(forkUrl, "_blank");
+    }
+
+    async function checkFork() {
+      const username = document.getElementById("username").value.trim();
+      if (!username) {
+        alert("Please enter your GitHub username.");
+        return;
+      }
+
+      const repo = "FLEX-AI";
+      const owner = "Allan-davincs";
+      const forkUrl = `https://github.com/${owner}/${repo}/fork`;
+      const userRepoUrl = `https://github.com/${username}/${repo}`;
+      const apiUrl = `https://api.github.com/repos/${username}/${repo}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        if (response.status === 200) {
+          const herokuDeployUrl = `https://heroku.com/deploy?template=${encodeURIComponent(userRepoUrl)}`;
+          window.open(herokuDeployUrl, "_blank");
+        } else if (response.status === 404) {
+          showPopup(forkUrl);
+        } else {
+          alert("GitHub API error. Try again later.");
+        }
+      } catch (error) {
+        alert("Something went wrong: " + error.message);
+      }
+    }
+
+    function syncFork() {
+      const username = document.getElementById("username").value.trim();
+      if (!username) {
+        alert("Please enter your GitHub username.");
+        return;
+      }
+
+      const repo = "FLEX-AI";
+      const syncUrl = `https://github.com/${username}/${repo}/sync`;
+
+      window.open(syncUrl, "_blank");
+    }
+  </script>
+</body>
+</html>
