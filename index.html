@@ -4,27 +4,132 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Deploy FLEX-AI to Heroku</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Fira+Code&display=swap" rel="stylesheet">
   <style>
-    /* ... same styling as before ... (you can keep your bubble and dark terminal style) */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #ffffff;
+      font-family: 'Fira Code', monospace;
+      overflow: hidden;
+    }
+
+    /* 🔌 Circuit background */
+    .circuit-bg {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://www.transparenttextures.com/patterns/circuit-board.png');
+      background-size: 500px;
+      animation: moveBackground 60s linear infinite;
+      opacity: 0.08;
+      z-index: 0;
+    }
+
+    @keyframes moveBackground {
+      from { background-position: 0 0; }
+      to { background-position: 1000px 1000px; }
+    }
+
+    .container {
+      z-index: 2;
+      position: relative;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .container img {
+      width: 120px;
+      filter: drop-shadow(0 0 8px cyan);
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      margin: 20px 0;
+      color: cyan;
+      text-shadow: 0 0 10px cyan;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    input {
+      padding: 10px;
+      width: 280px;
+      border: 2px solid cyan;
+      background: #111;
+      color: white;
+      border-radius: 5px;
+      font-family: 'Fira Code', monospace;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 18px;
+      margin-right: 10px;
+      font-family: 'Orbitron', sans-serif;
+      background: cyan;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 10px cyan;
+    }
+
+    button:hover {
+      background: #0ff;
+      transform: scale(1.05);
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -30%);
+      background: #111;
+      padding: 30px;
+      border: 2px solid cyan;
+      border-radius: 10px;
+      z-index: 999;
+      text-align: center;
+      box-shadow: 0 0 15px cyan;
+    }
+
+    .popup h3 {
+      color: #ff4444;
+      margin-bottom: 10px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .popup button {
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
-  <div class="bubbles">
-    <!-- ... keep your bubbles animation ... -->
-  </div>
+
+  <!-- 🔌 Animated circuit board background -->
+  <div class="circuit-bg"></div>
 
   <div class="container">
     <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI Icon" />
     <h2>Deploy FLEX-AI to Heroku</h2>
     <p>Enter your GitHub username below:</p>
-    <input type="text" id="username" placeholder="e.g., Allan-davincs" />
+    <input type="text" id="username" placeholder="e.g., Flexing23" />
+    <br/>
     <button onclick="checkFork()">🚀 Deploy Now</button>
-    <button onclick="syncFork()">🔄 Sync Fork (if outdated)</button>
+    <button onclick="syncFork()">🔄 Sync Fork</button>
   </div>
 
   <div id="popup" class="popup">
     <h3>🚨 You haven't forked FLEX-AI yet!</h3>
-    <p>Please first fork the repository to your GitHub account.<br>After that, you can sync later if needed via GitHub's Sync Fork button.</p>
+    <p>Please first fork the repository to your GitHub account.<br>You can later sync via GitHub's Sync Fork button.</p>
     <button id="forkLinkBtn">🔱 Go to Fork Now</button>
   </div>
 
